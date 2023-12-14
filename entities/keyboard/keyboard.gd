@@ -1,7 +1,7 @@
 class_name Keyboard
 extends Control
 
-var key_scene := preload("res://entities/keyboard/key.tscn")
+var key_scene := load("res://entities/keyboard/key.tscn")
 var key_size := Vector2(64, 64)
 var key_distance := 2
 var duplicated_keys := []

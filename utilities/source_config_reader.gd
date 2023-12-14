@@ -114,3 +114,16 @@ static func save_as_vcfg(keybinds: Dictionary, path := ""):
 	file.store_line("\t}\n}")
 	print("SourceConfigReader: config saved at ", path)
 	pass
+	
+static func save_as_vcfg_web(keybinds: Dictionary):
+	var file := ""
+	
+	file += ("\"config\"\n{")
+	file += ("\t\"bindings\"\n\t{")
+	
+	for keybind in keybinds:
+		if !keybinds[keybind].is_empty():
+			file += ("\n\t\t\"" + KeyTranslator.key_godot_to_source(keybind) + "\"\t\"" + keybinds[keybind] + "\"")
+	
+	file += ("\n\t}\n}")
+	return file

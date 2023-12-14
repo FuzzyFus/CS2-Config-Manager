@@ -6,25 +6,27 @@ extends Control
 @onready var keyinfo_label: Label = $KeyInfo/VBoxContainer/Label
 @onready var keyinfo_lineedit: LineEdit = $KeyInfo/VBoxContainer/LineEdit
 @onready var selected_bind_parent: Control = $SelectedBind
-@onready var save_file_dialog: FileDialog = $SaveButton/FileDialog
+@onready var open_file_dialog: FileDialog = $FileDialog
 @onready var version_label: Label = $VersionLabel
+@onready var export_dialog: ConfirmationDialog = $ExportDialog
 
 var selected_key: KeyboardKey
 
 var cfg_path := "C:/Program Files (x86)/Steam/steamapps/common/Counter-Strike Global Offensive/csgo/cfg/alex.cfg"
 var vcfg_path := "C:/Program Files (x86)/Steam/userdata/86135819/730/local/cfg/cs2_user_keys_0_slot0.vcfg"
-var default_vcfg_path := "C:/Program Files (x86)/Steam/steamapps/common/Counter-Strike Global Offensive/game/csgo/cfg/user_keys_default.vcfg"
+var default_vcfg_path := "res://properties/user_keys_default.vcfg"
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	open_file_dialog.visible = true
 	version_label.text = ProjectSettings.get_setting("application/config/name") + " " + ProjectSettings.get_setting("application/config/version")
+
+func load_config(path: String) -> void:
 	var lyt = Keyboard.generate_layout("res://properties/keyboard_layouts/standard_physcode.txt")
-	
 	var default_cfg: Dictionary = SourceConfigReader.get_config(default_vcfg_path)
-	var cfg: Dictionary = SourceConfigReader.merge_cfgs(default_cfg, SourceConfigReader.get_config(vcfg_path))
+	var cfg: Dictionary = SourceConfigReader.merge_cfgs(default_cfg, SourceConfigReader.get_config(path))
 	keyboard.generate_keys(lyt, cfg)
 	mouse.set_binds(cfg)
-	pass # Replace with function body.
 
 func _unhandled_key_input(event):
 	if event.is_echo() or keyinfo_lineedit.has_focus():
@@ -79,14 +81,12 @@ func apply_new_bind() -> void:
 			return
 		key.set_info(KeyInfoPresets.get_info_from_command(selected_bind.command))
 
-func save_config(end_directory: String) -> void:
+func save_config() -> void:
 	var keybind_dict = keyboard.get_keybinds()
 	keybind_dict.merge(mouse.get_keybinds())
-	if end_directory.ends_with(".vcfg"):
-		SourceConfigReader.save_as_vcfg(keybind_dict, end_directory)
-		return
-	elif end_directory.ends_with(".cfg"):
-		SourceConfigReader.save_as_autoexec(keybind_dict, end_directory)
+	
+	(export_dialog.get_child(0) as TextEdit).text = SourceConfigReader.save_as_vcfg_web(keybind_dict)
+	export_dialog.visible = true
 
 func change_selected_key(key: KeyboardKey):
 	selected_key = key
@@ -109,3 +109,6 @@ func change_selected_key_command(new_command: String):
 		else:
 			key.set_info(KeyInfoPresets.get_info_from_command(new_command))
 		key.update_visual()
+
+func copy_exported_config_to_clipboard() -> void:
+	DisplayServer.clipboard_set( (export_dialog.get_child(0) as TextEdit).text )
