@@ -1,0 +1,220 @@
+{
+    "Keybinds":
+    {
+        "Attack":
+        {
+            "Colour": [1.0, 0.5, 0.5],
+            
+            "+reload":
+            {
+                "Name": "Reload"
+            },
+            "+attack": 
+            {
+                "Name": "PrimaryFire"
+            },
+            "+attack2":
+            {
+                "Name": "SecondaryFire"
+            }
+        },
+
+        "Weapon":
+        {
+            "Colour": [1.0, 0.65, 0.5],
+            
+            "slot1":
+            {
+                "Name": "Primary"
+            },
+            "slot2": 
+            {
+                "Name": "Secondary"
+            },
+            "slot3":
+            {
+                "Name": "Knife"
+            },
+            "slot4": 
+            {
+                "Name": "CycleNade"
+            },
+            "slot5": 
+            {
+                "Name": "Bomb"
+            },
+            "invnext":
+            {
+                "Name": "NextWeapon"
+            },
+            "invprev":
+            {
+                "Name": "PrevWeapon"
+            },
+            "lastinv":
+            {
+                "Name": "Quickswap"
+            },
+            "show_loadout_toggle":
+            {
+                "Name": "Loadout"
+            }
+        },
+
+        "Movement":
+        {
+            "Colour": [1.0, 0.9, 0.5],
+            
+            "+jump":
+            {
+                "Name": "Jump"
+            },
+            "+forward": 
+            {
+                "Name": "↑"
+            },
+            "+left":
+            {
+                "Name": "←"
+            },
+            "+back": 
+            {
+                "Name": "↓"
+            },
+            "+right":
+            {
+                "Name": "→"
+            },
+            "+duck": 
+            {
+                "Name": "Crouch"
+            },
+            "+sprint":
+            {
+                "Name": "Walk"
+            },
+            "noclip":
+            {
+                "Name": "Noclip"
+            }
+        },
+
+        "Buy":
+        {
+            "Colour": [0.5, 1.0, 0.6],
+            "Prefix": "buy"
+        },
+
+        "Interact":
+        {
+            "Colour": [0.5, 1.0, 0.75],
+            
+            "+use":
+            {
+                "Name": "Use"
+            },
+            "+lookatweapon": 
+            {
+                "Name": "Inspect"
+            },
+            "drop":
+            {
+                "Name": "Drop"
+            },
+            "slot12":
+            {
+                "Name": "Xray"
+            }
+        },
+
+        "Communicate":
+        {
+            "Colour": [0.5, 0.85, 1.0],
+            
+            "+voicerecord":
+            {
+                "Name": "Voicechat"
+            },
+            "player_ping": 
+            {
+                "Name": "Ping"
+            },
+            "radio":
+            {
+                "Name": "QuickChat"
+            },
+            "+radialradio": 
+            {
+                "Name": "PrimaryFire"
+            },
+            "messagemode":
+            {
+                "Name": "Chat"
+            },
+            "messagemode2":
+            {
+                "Name": "TeamChat"
+            },
+            "+spray_menu":
+            {
+                "Name": "Spray"
+            }
+        },
+
+        "Equipment":
+        {
+            "Colour": [0.5, 0.5, 1.0],
+            
+            "slot6":
+            {
+                "Name": "Grenade"
+            },
+            "slot7": 
+            {
+                "Name": "Flash"
+            },
+            "slot8":
+            {
+                "Name": "Smoke"
+            },
+            "slot9": 
+            {
+                "Name": "Decoy"
+            },
+            "slot10":
+            {
+                "Name": "Molly"
+            }
+        },
+
+        "Menu":
+        {
+            "Colour": [0.7, 0.5, 1.0],
+            
+            "+showscores":
+            {
+                "Name": "Scoreboard"
+            },
+            "toggleconsole": 
+            {
+                "Name": "Console"
+            },
+            "teammenu": 
+            {
+                "Name": "SwitchTeam"
+            },
+            "buymenu":
+            {
+                "Name": "BuyMenu"
+            }
+        },
+
+        "Say":
+        {
+            "Colour": [1.0, 0.5, 0.9],
+            "Prefix": "say "
+        },
+
+        "UnknownColour": [1.0, 1.0, 1.0]
+    }
+}

@@ -1,0 +1,31 @@
+[gd_scene load_steps=2 format=3 uid="uid://cf01hxskdo157"]
+
+[ext_resource type="Script" path="res://entities/bind_presets/bind_presets.gd" id="1_gasj8"]
+
+[node name="BindPresets" type="Panel"]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -265.0
+offset_top = -382.0
+grow_horizontal = 0
+grow_vertical = 0
+script = ExtResource("1_gasj8")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_scroll_mode = 0
+metadata/_edit_lock_ = true
+
+[node name="Control" type="VBoxContainer" parent="ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+metadata/_edit_lock_ = true
