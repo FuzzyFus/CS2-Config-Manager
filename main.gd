@@ -8,22 +8,21 @@ extends Control
 @onready var selected_bind_parent: Control = $SelectedBind
 @onready var open_file_dialog: FileDialog = $FileDialog
 @onready var version_label: Label = $VersionLabel
+
 @onready var export_dialog: ConfirmationDialog = $ExportDialog
+@onready var import_dialog: AcceptDialog = $ImportDialog
 
+const DEFAULT_VCFG_PATH := "res://properties/user_keys_default.vcfg"
 var selected_key: KeyboardKey
-
-var cfg_path := "C:/Program Files (x86)/Steam/steamapps/common/Counter-Strike Global Offensive/csgo/cfg/alex.cfg"
-var vcfg_path := "C:/Program Files (x86)/Steam/userdata/86135819/730/local/cfg/cs2_user_keys_0_slot0.vcfg"
-var default_vcfg_path := "res://properties/user_keys_default.vcfg"
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	open_file_dialog.visible = true
+	import_dialog.visible = true
 	version_label.text = ProjectSettings.get_setting("application/config/name") + " " + ProjectSettings.get_setting("application/config/version")
 
 func load_config(path: String) -> void:
 	var lyt = Keyboard.generate_layout("res://properties/keyboard_layouts/standard_physcode.txt")
-	var default_cfg: Dictionary = SourceConfigReader.get_config(default_vcfg_path)
+	var default_cfg: Dictionary = SourceConfigReader.get_config(DEFAULT_VCFG_PATH)
 	var cfg: Dictionary = SourceConfigReader.merge_cfgs(default_cfg, SourceConfigReader.get_config(path))
 	keyboard.generate_keys(lyt, cfg)
 	mouse.set_binds(cfg)
@@ -112,3 +111,14 @@ func change_selected_key_command(new_command: String):
 
 func copy_exported_config_to_clipboard() -> void:
 	DisplayServer.clipboard_set( (export_dialog.get_child(0) as TextEdit).text )
+
+# TODO: this is silly and should be worked in with load_config()
+func import_web_config() -> void:
+	import_dialog.visible = false
+	var rawtext_config: String = import_dialog.get_child(0).get_node("TextEdit").text
+	
+	var lyt = Keyboard.generate_layout("res://properties/keyboard_layouts/standard_physcode.txt")
+	var default_cfg: Dictionary = SourceConfigReader.get_config(DEFAULT_VCFG_PATH)
+	var cfg: Dictionary = SourceConfigReader.merge_cfgs(default_cfg, SourceConfigReader.load_vcfg(rawtext_config))
+	keyboard.generate_keys(lyt, cfg)
+	mouse.set_binds(cfg)

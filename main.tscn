@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://main.gd" id="1_y13on"]
 [ext_resource type="Texture2D" uid="uid://62ttoabqbby8" path="res://assets/sprites/badmousethinglol.png" id="3_045t6"]
 [ext_resource type="Script" path="res://entities/mouse.gd" id="3_jvt7e"]
-[ext_resource type="PackedScene" uid="uid://qyarq23gshw7" path="res://entities/keyboard/key-corrupt.tscn" id="4_mxdwa"]
+[ext_resource type="PackedScene" uid="uid://be0og50vv8v46" path="res://entities/keyboard/key.tscn" id="4_mxdwa"]
 [ext_resource type="PackedScene" uid="uid://cf01hxskdo157" path="res://entities/bind_presets/bind_presets.tscn" id="6_bpm17"]
 
 [node name="Main" type="Control" groups=["Main"]]
@@ -227,8 +227,42 @@ offset_bottom = 351.0
 text = "config"
 editable = false
 
+[node name="ImportDialog" type="AcceptDialog" parent="."]
+title = "Import .vcfg"
+initial_position = 2
+size = Vector2i(410, 400)
+visible = true
+min_size = Vector2i(410, 400)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ImportDialog"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -49.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="RichTextLabel" type="RichTextLabel" parent="ImportDialog/VBoxContainer"]
+custom_minimum_size = Vector2(0, 92)
+layout_mode = 2
+bbcode_enabled = true
+text = "[center]Please provide your [i]cs2_user_keys_0_slot0.vcfg[/i] file.
+It should be located in your Steam install;
+C:\\Program Files (x86)\\Steam\\userdata\\[YOUR STEAM ID]\\730\\local\\cfg"
+
+[node name="TextEdit" type="TextEdit" parent="ImportDialog/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
 [connection signal="text_submitted" from="KeyInfo/VBoxContainer/LineEdit" to="." method="change_selected_key_command"]
 [connection signal="text_submitted" from="KeyInfo/VBoxContainer/LineEdit" to="KeyInfo/VBoxContainer/LineEdit" method="release_focus" unbinds=1]
 [connection signal="pressed" from="SaveButton" to="." method="save_config"]
 [connection signal="file_selected" from="SaveButton/FileDialog" to="." method="save_config"]
 [connection signal="file_selected" from="FileDialog" to="." method="load_config"]
+[connection signal="canceled" from="ExportDialog" to="." method="copy_exported_config_to_clipboard"]
+[connection signal="confirmed" from="ImportDialog" to="." method="import_web_config"]
