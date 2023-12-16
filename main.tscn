@@ -175,12 +175,13 @@ layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
+offset_left = 112.0
 offset_top = -31.0
-offset_right = 109.0
+offset_right = 221.0
 grow_vertical = 0
 text = "Save"
 
-[node name="FileDialog" type="FileDialog" parent="SaveButton"]
+[node name="SaveFileDialog" type="FileDialog" parent="SaveButton"]
 title = "Save Config"
 initial_position = 1
 size = Vector2i(600, 400)
@@ -189,6 +190,73 @@ ok_button_text = "Save"
 dialog_hide_on_ok = true
 access = 2
 filters = PackedStringArray(".vcfg", ".cfg")
+
+[node name="ExportDialog" type="ConfirmationDialog" parent="SaveButton"]
+title = "Exported to .vcfg!"
+initial_position = 2
+size = Vector2i(420, 400)
+ok_button_text = "Close"
+cancel_button_text = "Copy To Clipboard"
+
+[node name="TextEdit" type="TextEdit" parent="SaveButton/ExportDialog"]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 412.0
+offset_bottom = 351.0
+text = "config"
+editable = false
+
+[node name="LoadButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -31.0
+offset_right = 109.0
+grow_vertical = 0
+text = "Load
+"
+
+[node name="OpenFileDialog" type="FileDialog" parent="LoadButton"]
+title = "Open a File"
+initial_position = 2
+size = Vector2i(600, 425)
+min_size = Vector2i(600, 400)
+ok_button_text = "Open"
+file_mode = 0
+access = 2
+filters = PackedStringArray(".vcfg", ".cfg")
+
+[node name="ImportDialog" type="AcceptDialog" parent="LoadButton"]
+title = "Import .vcfg"
+initial_position = 2
+size = Vector2i(410, 400)
+min_size = Vector2i(410, 400)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LoadButton/ImportDialog"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -49.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="RichTextLabel" type="RichTextLabel" parent="LoadButton/ImportDialog/VBoxContainer"]
+custom_minimum_size = Vector2(0, 92)
+layout_mode = 2
+bbcode_enabled = true
+text = "[center]Please provide your [i]cs2_user_keys_0_slot0.vcfg[/i] file.
+It should be located in your Steam install;
+C:\\Program Files (x86)\\Steam\\userdata\\[YOUR STEAM ID]\\730\\local\\cfg"
+
+[node name="TextEdit" type="TextEdit" parent="LoadButton/ImportDialog/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
 
 [node name="VersionLabel" type="Label" parent="."]
 layout_mode = 1
@@ -202,67 +270,11 @@ offset_bottom = -33.0
 grow_vertical = 0
 text = "VersionInfo"
 
-[node name="FileDialog" type="FileDialog" parent="."]
-title = "Open a File"
-initial_position = 2
-size = Vector2i(600, 425)
-min_size = Vector2i(600, 400)
-ok_button_text = "Open"
-file_mode = 0
-access = 2
-filters = PackedStringArray(".vcfg", ".cfg")
-
-[node name="ExportDialog" type="ConfirmationDialog" parent="."]
-title = "Exported to .vcfg!"
-initial_position = 2
-size = Vector2i(420, 400)
-ok_button_text = "Close"
-cancel_button_text = "Copy To Clipboard"
-
-[node name="TextEdit" type="TextEdit" parent="ExportDialog"]
-offset_left = 8.0
-offset_top = 8.0
-offset_right = 412.0
-offset_bottom = 351.0
-text = "config"
-editable = false
-
-[node name="ImportDialog" type="AcceptDialog" parent="."]
-title = "Import .vcfg"
-initial_position = 2
-size = Vector2i(410, 400)
-visible = true
-min_size = Vector2i(410, 400)
-
-[node name="VBoxContainer" type="VBoxContainer" parent="ImportDialog"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 8.0
-offset_top = 8.0
-offset_right = -8.0
-offset_bottom = -49.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-
-[node name="RichTextLabel" type="RichTextLabel" parent="ImportDialog/VBoxContainer"]
-custom_minimum_size = Vector2(0, 92)
-layout_mode = 2
-bbcode_enabled = true
-text = "[center]Please provide your [i]cs2_user_keys_0_slot0.vcfg[/i] file.
-It should be located in your Steam install;
-C:\\Program Files (x86)\\Steam\\userdata\\[YOUR STEAM ID]\\730\\local\\cfg"
-
-[node name="TextEdit" type="TextEdit" parent="ImportDialog/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-
 [connection signal="text_submitted" from="KeyInfo/VBoxContainer/LineEdit" to="." method="change_selected_key_command"]
 [connection signal="text_submitted" from="KeyInfo/VBoxContainer/LineEdit" to="KeyInfo/VBoxContainer/LineEdit" method="release_focus" unbinds=1]
 [connection signal="pressed" from="SaveButton" to="." method="save_config"]
-[connection signal="file_selected" from="SaveButton/FileDialog" to="." method="save_config"]
-[connection signal="file_selected" from="FileDialog" to="." method="load_config"]
-[connection signal="canceled" from="ExportDialog" to="." method="copy_exported_config_to_clipboard"]
-[connection signal="confirmed" from="ImportDialog" to="." method="import_web_config"]
+[connection signal="file_selected" from="SaveButton/SaveFileDialog" to="." method="save_config"]
+[connection signal="canceled" from="SaveButton/ExportDialog" to="." method="copy_exported_config_to_clipboard"]
+[connection signal="pressed" from="LoadButton" to="LoadButton/OpenFileDialog" method="set_visible" binds= [true]]
+[connection signal="file_selected" from="LoadButton/OpenFileDialog" to="." method="load_config"]
+[connection signal="confirmed" from="LoadButton/ImportDialog" to="." method="import_web_config"]

@@ -8,9 +8,9 @@ static func get_config(config_path: String):
 	
 	# get config file
 	if config_path.ends_with(".cfg"):
-		config = load_cfg(file)
+		config = load_cfg(file.get_as_text())
 	elif config_path.ends_with(".vcfg"):
-		config = load_vcfg(file)
+		config = load_vcfg(file.get_as_text())
 	else:
 		print("SourceConfigReader: Config filetype not supported!")
 		return null
@@ -40,11 +40,11 @@ static func load_cfg(config_file) -> Dictionary:
 	
 	return { "Keybinds" = keybinds, "Unknown" = unknown}
 
-static func load_vcfg(config_file) -> Dictionary:
+static func load_vcfg(config_file: String) -> Dictionary:
 	var keybinds := {}
 	var unknown := []
-	while not config_file.eof_reached():
-		var line: String = config_file.get_line().strip_edges()
+	for line in config_file.split("\n"):
+		line = line.strip_edges()
 		
 		if line.count('"') <= 2:
 			continue

@@ -6,18 +6,18 @@ extends Control
 @onready var keyinfo_label: Label = $KeyInfo/VBoxContainer/Label
 @onready var keyinfo_lineedit: LineEdit = $KeyInfo/VBoxContainer/LineEdit
 @onready var selected_bind_parent: Control = $SelectedBind
-@onready var open_file_dialog: FileDialog = $FileDialog
 @onready var version_label: Label = $VersionLabel
 
-@onready var export_dialog: ConfirmationDialog = $ExportDialog
-@onready var import_dialog: AcceptDialog = $ImportDialog
+@onready var open_file_dialog: FileDialog = $LoadButton/OpenFileDialog
+@onready var export_dialog: ConfirmationDialog = $SaveButton/ExportDialog
+@onready var import_dialog: AcceptDialog = $LoadButton/ImportDialog
 
 const DEFAULT_VCFG_PATH := "res://properties/user_keys_default.vcfg"
 var selected_key: KeyboardKey
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	import_dialog.visible = true
+	open_file_dialog.visible = true
 	version_label.text = ProjectSettings.get_setting("application/config/name") + " " + ProjectSettings.get_setting("application/config/version")
 
 func load_config(path: String) -> void:
@@ -80,7 +80,7 @@ func apply_new_bind() -> void:
 			return
 		key.set_info(KeyInfoPresets.get_info_from_command(selected_bind.command))
 
-func save_config() -> void:
+func save_config(path: String) -> void:
 	var keybind_dict = keyboard.get_keybinds()
 	keybind_dict.merge(mouse.get_keybinds())
 	

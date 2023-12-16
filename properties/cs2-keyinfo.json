@@ -145,7 +145,15 @@
             },
             "+radialradio": 
             {
-                "Name": "PrimaryFire"
+                "Name": "Chatwheel1"
+            },
+            "+radialradio2": 
+            {
+                "Name": "Chatwheel2"
+            },
+            "+radialradio3": 
+            {
+                "Name": "Chatwheel3"
             },
             "messagemode":
             {
